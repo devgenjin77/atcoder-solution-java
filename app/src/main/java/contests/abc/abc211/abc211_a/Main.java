@@ -3,6 +3,7 @@
  * A - Blood Pressure
  * https://atcoder.jp/contests/abc211/tasks/abc211_a
  *
+ * verified:
  * - https://atcoder.jp/contests/abc211/submissions/24527965
  */
 package contests.abc.abc211.abc211_a;

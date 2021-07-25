@@ -3,6 +3,7 @@
  * B - Cycle Hit
  * https://atcoder.jp/contests/abc211/tasks/abc211_b
  *
+ * verified:
  * - https://atcoder.jp/contests/abc211/submissions/24528055
  */
 package contests.abc.abc211.abc211_b;
