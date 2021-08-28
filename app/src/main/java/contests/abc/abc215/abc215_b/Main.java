@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc215/tasks/abc215_b
  *
  * verified:
- * - https://atcoder.jp/contests/abc215/submissions/25335548
+ * - https://atcoder.jp/contests/abc215/submissions/25374993
  */
 package contests.abc.abc215.abc215_b;
 
@@ -18,9 +18,9 @@ public class Main {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     long n = Long.parseLong(br.readLine());
     br.close();
-    System.out.println(solve(n));
+    System.out.println(solve2(n));
   }
-
+  // 全探索での解法
   static int solve(long n){
     long value = 1;
     int k = 0;
@@ -29,5 +29,10 @@ public class Main {
       k++;
     }
     return k - 1;
+  }
+
+  // 整数のbit表現を使った解法
+  static int solve2(long n){
+    return Long.toBinaryString(n).length() - 1;
   }
 }
