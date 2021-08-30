@@ -1,7 +1,7 @@
 /*
  * ABC216
  * A - Signed Difficulty
- * https://atcoder.jp/contests/abc215/tasks/abc216_a
+ * https://atcoder.jp/contests/abc216/tasks/abc216_a
  *
  * verified:
  * - https://atcoder.jp/contests/abc216/submissions/25469411

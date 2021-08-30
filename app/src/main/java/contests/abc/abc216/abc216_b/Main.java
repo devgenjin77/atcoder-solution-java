@@ -1,7 +1,7 @@
 /*
  * ABC216
  * B - Same Name
- * https://atcoder.jp/contests/abc215/tasks/abc216_b
+ * https://atcoder.jp/contests/abc216/tasks/abc216_b
  *
  * verified:
  * - https://atcoder.jp/contests/abc216/submissions/25469615
