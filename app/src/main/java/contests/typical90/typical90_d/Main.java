@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/typical90/tasks/typical90_d
  *
  * verified:
- * - https://atcoder.jp/contests/abc216/submissions/25469615
+ * - https://atcoder.jp/contests/typical90/submissions/25621763
  *
  */
 package contests.typical90.typical90_d;
