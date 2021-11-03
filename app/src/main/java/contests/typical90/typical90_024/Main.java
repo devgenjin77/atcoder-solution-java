@@ -7,7 +7,7 @@
  * - https://atcoder.jp/contests/typical90/submissions/25635861
  *
  */
-package contests.typical90.typical90_x;
+package contests.typical90.typical90_024;
 
 import java.io.BufferedReader;
 import java.io.IOException;
