@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc230/tasks/abc230_b
  *
  * verified:
- * - https://atcoder.jp/contests/abc230/submissions/27709575
+ * - https://atcoder.jp/contests/abc230/submissions/27709622
  */
 package contests.abc.abc230.abc230_b;
 
@@ -25,18 +25,12 @@ public class Main {
   }
 
   static boolean solve(String s) {
-    boolean ret = true;
     Set<Integer> set = new HashSet<>();
     for (int i = 0; i < s.length(); i++) {
       if (s.charAt(i) == 'o') {
         set.add(i % 3);
       }
     }
-    if (set.size() == 1 || (set.size() == 0 && s.length() <= 2)) {
-      ret = true;
-    } else {
-      ret = false;
-    }
-    return ret;
+    return set.size() == 1 || (set.size() == 0 && s.length() <= 2);
   }
 }
