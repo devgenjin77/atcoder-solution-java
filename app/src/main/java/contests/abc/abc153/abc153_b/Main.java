@@ -1,7 +1,7 @@
 /*
  * ABC153
  * B - Common Raccoon vs Monster
- * https://atcoder.jp/contests/abc153/tasks/abc153_a
+ * https://atcoder.jp/contests/abc153/tasks/abc153_b
  *
  * verified:
  * - https://atcoder.jp/contests/abc153/submissions/28577276
