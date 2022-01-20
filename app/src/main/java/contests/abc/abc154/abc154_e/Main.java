@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc154/tasks/abc154_e
  *
  * verified:
- * - https://atcoder.jp/contests/abc154/submissions/28639626
+ * - https://atcoder.jp/contests/abc154/submissions/28651833
  *
  */
 package contests.abc.abc154.abc154_e;
@@ -20,45 +20,36 @@ public class Main {
     String n = br.readLine();
     int k = Integer.parseInt(br.readLine());
     br.close();
-    int[] pow9 = new int[k + 1];
-    pow9[0] = 1;
-    for (int a = 1; a <= k; a++) {
-      pow9[a] = pow9[a - 1] * 9;
-    }
-    // 最大値Nに含まれる0以外の桁の数
-    int cntNot0 = 0;
-    int len = n.length();
-    int ans = 0;
-    for (int i = 0; i < len; i++) {
-      int d = n.charAt(i) - '0';
-      if (d == 0) {
-        continue;
+    //dp[i][smaller][j]
+    //i桁目まで確定させて、
+    //smaller=0の場合、Nと同じ、
+    //j個0以外の数字を使っている
+    int[][][] dp = new int[n.length() + 1][2][k + 1];
+    dp[0][0][0] = 1;
+    for (int i = 0; i < n.length(); i++) {
+      int next_i = i + 1;
+      int now_d = n.charAt(i) - '0';
+      for (int smaller = 0; smaller <= 1; smaller++) {
+        for (int j = 0; j <= k; j++) {
+          for (int tmp_d = 0; tmp_d < 10; tmp_d++) {
+            int next_s = smaller;
+            int next_j = tmp_d == 0 ? j : j + 1;
+            if (next_j > k) {
+              continue;
+            }
+            if (smaller == 0) {
+              if (tmp_d > now_d) {
+                continue;
+              } else if (tmp_d < now_d) {
+                next_s = 1;
+              }
+            }
+            dp[next_i][next_s][next_j] += dp[i][smaller][j];
+          }
+        }
       }
-      //i桁目を0設定した場合の数
-      ans += nCr(len - i - 1, k - cntNot0) * pow9[k - cntNot0];
-      //i桁目を1以上d未満で設定した場合の数
-      ans += (d - 1) * nCr(len - i - 1, k - cntNot0 - 1) * pow9[k - cntNot0 - 1];
-      cntNot0 += 1;
-      if (cntNot0 == k) {
-        ans += d;
-        break;
-      }
     }
-    System.out.println(ans);
+    System.out.println(dp[n.length()][0][k] + dp[n.length()][1][k]);
     return;
-  }
-
-  static int nCr(int n, int r) {
-    if (r < 1) {
-      return 0;
-    }
-    int ans = 1;
-    for (int i = 0; i < r; i++) {
-      ans *= (n - i);
-    }
-    for (int f = r; f > 1; f--) {
-      ans /= f;
-    }
-    return ans;
   }
 }
