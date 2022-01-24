@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc156/tasks/abc156_b
  *
  * verified:
- * - https://atcoder.jp/contests/abc156/submissions/28780985
+ * - https://atcoder.jp/contests/abc156/submissions/28781137
  *
  */
 package contests.abc.abc156.abc156_b;
