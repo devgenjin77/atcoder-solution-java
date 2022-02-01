@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc237/tasks/abc237_e
  *
  * verified:
- * - https://atcoder.jp/contests/abc237/submissions/28980219
+ * - https://atcoder.jp/contests/abc237/submissions/28993487
  *
  */
 package contests.abc.abc237.abc237_e;
