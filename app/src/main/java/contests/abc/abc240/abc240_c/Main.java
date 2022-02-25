@@ -1,7 +1,7 @@
 /*
  * ABC240
  * C - Jumping Takahashi
- * https://atcoder.jp/contests/abc240/tasks/abc240_b
+ * https://atcoder.jp/contests/abc240/tasks/abc240_c
  *
  * verified:
  * - https://atcoder.jp/contests/abc240/submissions/29643305
