@@ -29,6 +29,7 @@ public class Main {
       values[i] = Long.parseLong(wv[1]);
     }
     br.close();
+    // dp[i][j]:= i個目までみた時、重量がjになった時の価値の最大値
     long[][] dp = new long[n + 1][w + 1];
     Arrays.fill(dp[0], -1);
     long ans = 0;
