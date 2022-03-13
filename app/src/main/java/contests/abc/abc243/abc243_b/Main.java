@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc243/tasks/abc243_b
  *
  * verified:
- * - https://atcoder.jp/contests/abc243/submissions/30110210
+ * - https://atcoder.jp/contests/abc243/submissions/30110256
  *
  */
 package contests.abc.abc243.abc243_b;
@@ -24,7 +24,7 @@ public class Main {
     String[] array_a = br.readLine().split(" ");
     String[] array_b = br.readLine().split(" ");
     br.close();
-    Set<String> set_a = new HashSet<>(Arrays.asList(array_a).subList(0, n));
+    Set<String> set_a = new HashSet<>(Arrays.asList(array_a));
     int cnt1 = 0;
     int cnt2 = 0;
     for (int i = 0; i < n; i++) {
