@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc212/tasks/abc212_b
  *
  * verified:
- * - https://atcoder.jp/contests/abc212/submissions/30170659
+ * - https://atcoder.jp/contests/abc212/submissions/30170736
  */
 package contests.abc.abc212.abc212_b;
 
@@ -22,7 +22,7 @@ public class Main {
     boolean isAllSame = true;
     // 全ての数字が同じかを判断
     for (int i = 1; i < pwd.length(); i++) {
-      if (isAllSame && pwd.charAt(i - 1) != pwd.charAt(i)) {
+      if (pwd.charAt(i - 1) != pwd.charAt(i)) {
         isAllSame = false;
         break;
       }
@@ -40,10 +40,7 @@ public class Main {
         break;
       }
     }
-    if (isAllNext) {
-      return true;
-    }
-    return false;
+    return isAllNext;
   }
 
   public static void main(String[] args) {
