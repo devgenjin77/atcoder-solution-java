@@ -4,32 +4,32 @@
  * https://atcoder.jp/contests/abc212/tasks/abc212_a
  *
  * verified:
- * - https://atcoder.jp/contests/abc212/submissions/24697130
+ * - https://atcoder.jp/contests/abc212/submissions/30168947
  */
 package contests.abc.abc212.abc212_a;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class Main {
 
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String[] head = br.readLine().split(" ");
-    br.close();
-    int a = Integer.parseInt(head[0]);
-    int b = Integer.parseInt(head[1]);
-    System.out.println(solve(a, b));
+  static void solve(BufferedReader br, PrintWriter pw) throws Exception {
+    String[] input = br.readLine().split(" ");
+    int a = Integer.parseInt(input[0]);
+    int b = Integer.parseInt(input[1]);
+    String ans = b == 0 ? "Gold" : a == 0 ? "Silver" : "Alloy";
+    pw.println(ans);
+    pw.flush();
   }
 
-  static String solve(int a, int b){
-    if(a == 0){
-      return "Silver";
-    } else if(b == 0){
-      return "Gold";
-    } else {
-      return "Alloy";
+  public static void main(String[] args) {
+    try (
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(System.out)) {
+      solve(br, pw);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 }
