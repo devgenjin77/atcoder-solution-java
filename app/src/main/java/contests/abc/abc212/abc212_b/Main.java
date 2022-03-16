@@ -4,34 +4,55 @@
  * https://atcoder.jp/contests/abc212/tasks/abc212_b
  *
  * verified:
- * - https://atcoder.jp/contests/abc212/submissions/24699026
+ * - https://atcoder.jp/contests/abc212/submissions/30170659
  */
 package contests.abc.abc212.abc212_b;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class Main {
 
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String x = br.readLine();
-    br.close();
-    System.out.println(isWeakPassword(x) ? "Weak" : "Strong");
+  static void solve(BufferedReader br, PrintWriter pw) throws Exception {
+    pw.println(isWeakPassword(br.readLine()) ? "Weak" : "Strong");
   }
-  static boolean isWeakPassword(String pwd){
+
+  static boolean isWeakPassword(String pwd) {
+    boolean isAllSame = true;
     // 全ての数字が同じかを判断
-    if(pwd.substring(0, 2).equals(pwd.substring(2))){
-      return true;
-    }
-    // 次の桁の数字が前の桁の数字のプラス１であるか判断
-    char[] c_pwd = pwd.toCharArray();
-    for(int i = 0; i <=2; i++){
-      if((c_pwd[i] - '0' + 1) % 10 != c_pwd[i + 1] - '0'){
-        return false;
+    for (int i = 1; i < pwd.length(); i++) {
+      if (isAllSame && pwd.charAt(i - 1) != pwd.charAt(i)) {
+        isAllSame = false;
+        break;
       }
     }
-    return true;
+    if (isAllSame) {
+      return true;
+    }
+    boolean isAllNext = true;
+    // 次の桁の数字が前の桁の数字のプラス１であるか判断
+    for (int i = 1; i < pwd.length(); i++) {
+      int prev = pwd.charAt(i - 1) - '0';
+      int now = pwd.charAt(i) - '0';
+      if (now != (prev + 1) % 10) {
+        isAllNext = false;
+        break;
+      }
+    }
+    if (isAllNext) {
+      return true;
+    }
+    return false;
+  }
+
+  public static void main(String[] args) {
+    try (
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(System.out)) {
+      solve(br, pw);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
