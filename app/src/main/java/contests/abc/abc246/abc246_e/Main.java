@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc246/tasks/abc246_e
  *
  * verified:
- * - https://atcoder.jp/contests/abc246/submissions/30700294
+ * - https://atcoder.jp/contests/abc246/submissions/30703031
  *
  */
 
@@ -39,37 +39,38 @@ public class Main {
         Arrays.fill(tbl_cost[i][j], Integer.MAX_VALUE);
       }
     }
-    Arrays.fill(tbl_cost[ax][ay], 0);
     Deque<Piece> queue = new ArrayDeque<>();
-    queue.add(new Piece(ax, ay, -1, 0));
+    for (int d = 0; d < 4; d++) {
+      queue.add(new Piece(ax, ay, d, 1));
+      tbl_cost[ax][ay][d] = 1;
+    }
     int ans = Integer.MAX_VALUE;
     while (!queue.isEmpty()) {
-      Piece p = queue.poll();
-      if(p.cost >= ans) {
+      Piece p = queue.pollFirst();
+      if (p.cost != tbl_cost[p.x][p.y][p.d]) {
         continue;
       }
+      if (p.x == bx && p.y == by) {
+        ans = p.cost;
+        break;
+      }
       for (int next_dir = 0; next_dir < 4; next_dir++) {
-        if(isOppositeDir(p.d, next_dir)) {
+        if (isOppositeDir(p.d, next_dir)) {
           continue;
         }
         int next_x = p.x + dx[next_dir];
         int next_y = p.y + dy[next_dir];
         int next_cost = p.d == next_dir ? p.cost : p.cost + 1;
-        if (next_x >= 0 && next_x < n && next_y >= 0 && next_y < n
-            && map[next_x].charAt(next_y) == '.'
-            && tbl_cost[next_x][next_y][next_dir] > next_cost) {
-          tbl_cost[next_x][next_y][next_dir] = next_cost;
-          if(next_x == bx && next_y == by) {
-            ans = Math.min(next_cost, ans);
-          } else {
+        if (next_x >= 0 && next_x < n && next_y >= 0 && next_y < n) {
+          if (map[next_x].charAt(next_y) == '.' && tbl_cost[next_x][next_y][next_dir] > next_cost) {
+            tbl_cost[next_x][next_y][next_dir] = next_cost;
             Piece next = new Piece(next_x, next_y, next_dir, next_cost);
-            if(p.d == next_dir) {
+            if (p.d == next_dir) {
               queue.addFirst(next);
             } else {
               queue.addLast(next);
             }
           }
-
         }
       }
     }
@@ -77,14 +78,14 @@ public class Main {
   }
 
   static boolean isOppositeDir(int a, int b) {
-    if(a >= 0 && b >= 0 && Math.abs(a - b) == 2) {
+    if (a >= 0 && b >= 0 && Math.abs(a - b) == 2) {
       return true;
     } else {
       return false;
     }
   }
 
-  static class Piece implements Comparable<Piece> {
+  static class Piece {
 
     int x, y, d, cost;
 
@@ -93,11 +94,6 @@ public class Main {
       this.y = y;
       this.d = d;
       this.cost = cost;
-    }
-
-    @Override
-    public int compareTo(Piece o) {
-      return Integer.compare(cost, o.cost);
     }
   }
 
