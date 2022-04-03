@@ -4,16 +4,15 @@
  * https://atcoder.jp/contests/abc246/tasks/abc246_e
  *
  * verified:
- * - https://atcoder.jp/contests/abc246/submissions/30703031
+ * - https://atcoder.jp/contests/abc246/submissions/30707138
  *
  */
-
 
 package contests.abc.abc246.abc246_e;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Deque;
+import java.util.Queue;
 
 public class Main {
 
@@ -33,48 +32,36 @@ public class Main {
       map[i] = fs.next();
     }
     fs.close();
-    int[][][] tbl_cost = new int[n][n][4];
+    int[][] tbl_cost = new int[n][n];
     for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) {
-        Arrays.fill(tbl_cost[i][j], Integer.MAX_VALUE);
-      }
+      Arrays.fill(tbl_cost[i], Integer.MAX_VALUE);
     }
-    Deque<Piece> queue = new ArrayDeque<>();
-    for (int d = 0; d < 4; d++) {
-      queue.add(new Piece(ax, ay, d, 1));
-      tbl_cost[ax][ay][d] = 1;
-    }
-    int ans = Integer.MAX_VALUE;
+    Queue<Piece> queue = new ArrayDeque<>();
+    queue.add(new Piece(ax, ay, -1));
+    tbl_cost[ax][ay] = 0;
     while (!queue.isEmpty()) {
-      Piece p = queue.pollFirst();
-      if (p.cost != tbl_cost[p.x][p.y][p.d]) {
-        continue;
-      }
-      if (p.x == bx && p.y == by) {
-        ans = p.cost;
-        break;
-      }
+      Piece p = queue.poll();
       for (int next_dir = 0; next_dir < 4; next_dir++) {
-        if (isOppositeDir(p.d, next_dir)) {
+        // 以前と同一方向かまたは逆方向の場合は調べない
+        if (p.dir == next_dir || isOppositeDir(p.dir, next_dir)) {
           continue;
         }
-        int next_x = p.x + dx[next_dir];
-        int next_y = p.y + dy[next_dir];
-        int next_cost = p.d == next_dir ? p.cost : p.cost + 1;
-        if (next_x >= 0 && next_x < n && next_y >= 0 && next_y < n) {
-          if (map[next_x].charAt(next_y) == '.' && tbl_cost[next_x][next_y][next_dir] > next_cost) {
-            tbl_cost[next_x][next_y][next_dir] = next_cost;
-            Piece next = new Piece(next_x, next_y, next_dir, next_cost);
-            if (p.d == next_dir) {
-              queue.addFirst(next);
-            } else {
-              queue.addLast(next);
-            }
+        int nx_x = p.pos_x + dx[next_dir];
+        int nx_y = p.pos_y + dy[next_dir];
+        int nx_ct = tbl_cost[p.pos_x][p.pos_y] + 1;
+        while (nx_x >= 0 && nx_x < n && nx_y >= 0 && nx_y < n && map[nx_x].charAt(nx_y) == '.') {
+          if (tbl_cost[nx_x][nx_y] > nx_ct) {
+            tbl_cost[nx_x][nx_y] = nx_ct;
+            queue.add(new Piece(nx_x, nx_y, next_dir));
+          } else if (tbl_cost[nx_x][nx_y] < nx_ct) {
+            break;
           }
+          nx_x += dx[next_dir];
+          nx_y += dy[next_dir];
         }
       }
     }
-    System.out.println(ans != Integer.MAX_VALUE ? ans : -1);
+    System.out.println(tbl_cost[bx][by] != Integer.MAX_VALUE ? tbl_cost[bx][by] : -1);
   }
 
   static boolean isOppositeDir(int a, int b) {
@@ -87,13 +74,12 @@ public class Main {
 
   static class Piece {
 
-    int x, y, d, cost;
+    int pos_x, pos_y, dir;
 
-    Piece(int x, int y, int d, int cost) {
-      this.x = x;
-      this.y = y;
-      this.d = d;
-      this.cost = cost;
+    Piece(int x, int y, int dir) {
+      this.pos_x = x;
+      this.pos_y = y;
+      this.dir = dir;
     }
   }
 
