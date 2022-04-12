@@ -5,23 +5,19 @@
  */
 package library.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
-class DisjointSetUnion {
+//DisjointSetUnionライブラリ
+public class DisjointSetUnion {
 
   private final int n;
   private int[] parent_or_size;
 
-  DisjointSetUnion(int n) {
+  public DisjointSetUnion(int n) {
     this.n = n;
     parent_or_size = new int[n];
-    Arrays.fill(parent_or_size, -1);
+    java.util.Arrays.fill(parent_or_size, -1);
   }
 
-  int merge(int a, int b) {
+  public int merge(int a, int b) {
     if (!(0 <= a && a < n) || !(0 <= b && b < n)) {
       return -1;
     }
@@ -40,14 +36,14 @@ class DisjointSetUnion {
     return x;
   }
 
-  boolean isSame(int a, int b) {
+  public boolean isSame(int a, int b) {
     if (!(0 <= a && a < n) || !(0 <= b && b < n)) {
       return false;
     }
     return leader(a) == leader(b);
   }
 
-  int leader(int a) {
+  public int leader(int a) {
     if (parent_or_size[a] < 0) {
       return a;
     } else {
@@ -56,25 +52,25 @@ class DisjointSetUnion {
     }
   }
 
-  int size(int a) {
+  public int size(int a) {
     if (!(0 <= a && a < n)) {
       return -1;
     }
     return -parent_or_size[leader(a)];
   }
 
-  List<List<Integer>> groups() {
+  public java.util.List<java.util.List<Integer>> groups() {
     int[] leader_buf = new int[n];
     int[] group_size = new int[n];
     for (int i = 0; i < n; i++) {
       leader_buf[i] = leader(i);
       group_size[leader_buf[i]]++;
     }
-    List<List<Integer>> result = new ArrayList<>();
-    HashMap<Integer, ArrayList<Integer>> list_map = new HashMap<>();
+    java.util.List<java.util.List<Integer>> result = new java.util.ArrayList<>();
+    java.util.HashMap<Integer, java.util.ArrayList<Integer>> list_map = new java.util.HashMap<>();
     for (int i = 0; i < n; i++) {
       if (i == leader_buf[i]) {
-        list_map.put(i, new ArrayList<>());
+        list_map.put(i, new java.util.ArrayList<>());
       }
     }
     for (int i = 0; i < n; i++) {
