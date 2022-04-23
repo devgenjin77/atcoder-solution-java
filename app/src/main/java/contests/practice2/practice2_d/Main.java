@@ -4,12 +4,15 @@
  * https://atcoder.jp/contests/practice2/tasks/practice2_d
  *
  * verified:
- * - https://atcoder.jp/contests/practice2/submissions/31171566
+ * - https://atcoder.jp/contests/practice2/submissions/31173644
  *
  */
 
 package contests.practice2.practice2_d;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
 public class Main {
@@ -17,19 +20,19 @@ public class Main {
   static final int[] di = {-1, 1, 0, 0};
   static final int[] dj = {0, 0, -1, 1};
 
-  public static void main(String[] args) throws Exception {
-    NextScanner sc = new NextScanner(System.in);
-    int n = Integer.parseInt(sc.next());
-    int m = Integer.parseInt(sc.next());
+  public static void main(String[] args) throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String[] nm = br.readLine().split(" ");
+    int n = Integer.parseInt(nm[0]);
+    int m = Integer.parseInt(nm[1]);
     StringBuilder[] grid = new StringBuilder[n];
     for (int i = 0; i < n; i++) {
-      grid[i] = new StringBuilder(sc.next());
+      grid[i] = new StringBuilder(br.readLine());
     }
-    sc.close();
+    br.close();
     int cnt_node = (n * m) + 2;
     MaxFlowGraph graph = new MaxFlowGraph(cnt_node);
     int s = (n * m), t = (n * m) + 1;
-    // s -> even / odd -> t
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
         if (grid[i].charAt(j) == '#') {
@@ -37,6 +40,7 @@ public class Main {
         }
         int v = (i * m) + j;
         if ((i + j) % 2 == 0) {
+          // s -> even
           graph.addEdge(s, v, 1);
           //even -> odd
           for (int idx = 0; idx < 4; idx++) {
@@ -47,6 +51,7 @@ public class Main {
             }
           }
         } else {
+          // odd -> t
           graph.addEdge(v, t, 1);
         }
       }
@@ -260,30 +265,6 @@ public class Main {
       this.to = to;
       this.cap = cap;
       this.flow = flow;
-    }
-  }
-
-  //NextScannerライブラリ
-  static final class NextScanner implements AutoCloseable {
-
-    final private java.io.BufferedReader in;
-
-    private java.util.StringTokenizer st;
-
-    public NextScanner(java.io.InputStream is) {
-      this.in = new java.io.BufferedReader(new java.io.InputStreamReader(is));
-    }
-
-    public String next() throws java.io.IOException {
-      if (st == null || !st.hasMoreElements()) {
-        st = new java.util.StringTokenizer(in.readLine());
-      }
-      return st.nextToken();
-    }
-
-    @Override
-    public void close() throws Exception {
-      in.close();
     }
   }
 }
