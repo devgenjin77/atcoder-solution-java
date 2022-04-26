@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/practice2/tasks/practice2_d
  *
  * verified:
- * - https://atcoder.jp/contests/practice2/submissions/31173644
+ * - https://atcoder.jp/contests/practice2/submissions/31279299
  *
  */
 
@@ -82,7 +82,7 @@ public class Main {
   }
 
   //MaxFlowGraph ライブラリ
-  static final class MaxFlowGraph {
+  static class MaxFlowGraph {
 
     private final int _n;
 
@@ -102,15 +102,23 @@ public class Main {
     public int addEdge(int from, int to, long cap) {
       java.util.Objects.checkIndex(from, this._n);
       java.util.Objects.checkIndex(to, this._n);
-      //Todo Non Negative Check
+      if (cap < 0) {
+        String errMsg = String.format("given cap %d is negative.", cap);
+        throw new IllegalArgumentException(errMsg);
+      }
       int m = pos.size();
       pos.add(new Pair(from, g.get(from).size()));
-      g.get(from).add(new Edge(to, g.get(to).size(), cap));
-      g.get(to).add(new Edge(from, g.get(from).size() - 1, 0L));
+      int from_id = g.get(from).size();
+      int to_id = g.get(to).size();
+      if (from == to) {
+        to_id++;
+      }
+      g.get(from).add(new Edge(to, to_id, cap));
+      g.get(to).add(new Edge(from, from_id, 0L));
       return m;
     }
 
-    private MaxFlowGraphEdge getEdge(int i) {
+    public MaxFlowGraphEdge getEdge(int i) {
       java.util.Objects.checkIndex(i, this.pos.size());
       Pair p = pos.get(i);
       Edge e = g.get(p.first).get(p.second);
@@ -128,7 +136,14 @@ public class Main {
 
     public void changeEdge(int i, long new_cap, long new_flow) {
       java.util.Objects.checkIndex(i, this.pos.size());
-      //Todo Non Negative Check
+      if (new_cap < 0) {
+        String errMsg = String.format("given new_cap %d is negative.", new_cap);
+        throw new IllegalArgumentException(errMsg);
+      }
+      if (new_flow < 0) {
+        String errMsg = String.format("given new_flow %d is negative.", new_flow);
+        throw new IllegalArgumentException(errMsg);
+      }
       if (new_cap < new_flow) {
         String msg = String.format("Flow %d is greather than the capacity %d", new_flow, new_cap);
         throw new IllegalArgumentException(msg);
@@ -141,13 +156,16 @@ public class Main {
     }
 
     public long flowMax(int s, int t) {
-      return flow(s, t, Long.MAX_VALUE / 2);
+      return flow(s, t, Long.MAX_VALUE);
     }
 
     public long flow(int s, int t, long limit) {
       java.util.Objects.checkIndex(s, this._n);
       java.util.Objects.checkIndex(t, this._n);
-      // Todo assertion s != t
+      if (s == t) {
+        String errMsg = String.format("Invalid path: (%d -> %d).", s, t);
+        throw new IllegalArgumentException(errMsg);
+      }
       long flow = 0L;
       int[] level = new int[_n];
       int[] iter = new int[_n];
