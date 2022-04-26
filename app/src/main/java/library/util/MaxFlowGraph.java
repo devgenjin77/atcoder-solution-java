@@ -177,7 +177,7 @@ public class MaxFlowGraph {
     return visited;
   }
 
-  private static final class Edge {
+  private final class Edge {
 
     final int to, rev;
     long cap;
@@ -189,7 +189,7 @@ public class MaxFlowGraph {
     }
   }
 
-  private static final class Pair {
+  private final class Pair {
 
     final int first, second;
 
