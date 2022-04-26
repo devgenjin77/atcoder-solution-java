@@ -4,9 +4,10 @@
  * https://atcoder.jp/contests/practice2/tasks/practice2_g
  *
  * verified:
- * - https://atcoder.jp/contests/practice2/submissions/30388656
+ * - https://atcoder.jp/contests/practice2/submissions/31279414
  *
  */
+
 package contests.practice2.practice2_g;
 
 import java.io.PrintWriter;
@@ -14,17 +15,19 @@ import java.util.List;
 
 public class Main {
 
-  static void solve(FastScanner sc, PrintWriter pw) throws Exception {
-    int n = sc.nextInt();
-    int m = sc.nextInt();
+  public static void main(String[] args) throws Exception {
+    NextScanner sc = new NextScanner(System.in);
+    int n = Integer.parseInt(sc.next());
+    int m = Integer.parseInt(sc.next());
     SCCGraph sccGraph = new SCCGraph(n);
     for (int i = 0; i < m; i++) {
-      int from = sc.nextInt();
-      int to = sc.nextInt();
+      int from = Integer.parseInt(sc.next());
+      int to = Integer.parseInt(sc.next());
       sccGraph.addEdge(from, to);
     }
     List<List<Integer>> scc_grp = sccGraph.scc();
     int cnt_grp = scc_grp.size();
+    PrintWriter pw = new PrintWriter(System.out);
     pw.println(cnt_grp);
     for (int i = 0; i < cnt_grp; i++) {
       List<Integer> scc_sub = scc_grp.get(i);
@@ -35,17 +38,7 @@ public class Main {
       }
       pw.println(sb.toString());
     }
-    pw.flush();
-  }
-
-  public static void main(String[] args) {
-    try (
-        FastScanner sc = new FastScanner();
-        PrintWriter pw = new PrintWriter(System.out)) {
-      solve(sc, pw);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    pw.close();
   }
 
   //SCCGraph ライブラリ
@@ -54,10 +47,9 @@ public class Main {
     final int _n;
     final java.util.ArrayList<Edge> edge_list;
 
-    private int nowOrd, groupNum;
-    private int[] gid, start, low, ord;
+    private int nowOrd, grpNum;
+    private int[] gid, start, low, ord, arr_edge_to;
     private java.util.Deque<Integer> visited;
-    private Edge[] arr_edge;
 
     SCCGraph(int n) {
       this._n = n;
@@ -76,13 +68,13 @@ public class Main {
       for (int i = 1; i <= _n; i++) {
         start[i] += start[i - 1];
       }
-      arr_edge = new Edge[edge_list.size()];
+      arr_edge_to = new int[edge_list.size()];
       int[] counter = java.util.Arrays.copyOf(start, start.length);
       for (Edge e : edge_list) {
-        arr_edge[counter[e.from]++] = e;
+        arr_edge_to[counter[e.from]++] = e.to;
       }
       nowOrd = 0;
-      groupNum = 0;
+      grpNum = 0;
       visited = new java.util.ArrayDeque<>();
       low = new int[_n];
       ord = new int[_n];
@@ -93,15 +85,12 @@ public class Main {
           dfs(i);
         }
       }
-      for (int i = 0; i < _n; i++) {
-        gid[i] = groupNum - 1 - gid[i];
-      }
-      java.util.List<java.util.List<Integer>> group_list = new java.util.ArrayList<>(groupNum);
-      for (int g = 0; g < groupNum; g++) {
+      java.util.List<java.util.List<Integer>> group_list = new java.util.ArrayList<>(grpNum);
+      for (int g = 0; g < grpNum; g++) {
         group_list.add(new java.util.ArrayList<>());
       }
       for (int i = _n - 1; i >= 0; i--) {
-        group_list.get(gid[i]).add(i);
+        group_list.get(grpNum - 1 - gid[i]).add(i);
       }
       return group_list;
     }
@@ -110,7 +99,7 @@ public class Main {
       low[v] = ord[v] = nowOrd++;
       visited.add(v);
       for (int i = start[v]; i < start[v + 1]; i++) {
-        int to = arr_edge[i].to;
+        int to = arr_edge_to[i];
         if (ord[to] == -1) {
           dfs(to);
           low[v] = Math.min(low[v], low[to]);
@@ -122,12 +111,12 @@ public class Main {
         while (true) {
           int u = visited.pollLast();
           ord[u] = _n;
-          gid[u] = groupNum;
+          gid[u] = grpNum;
           if (u == v) {
             break;
           }
         }
-        groupNum++;
+        grpNum++;
       }
     }
 
@@ -142,100 +131,22 @@ public class Main {
     }
   }
 
-  //FastScanner ライブラリ
-  static class FastScanner implements AutoCloseable {
+  //NextScannerライブラリ
+  static class NextScanner implements AutoCloseable {
 
-    private final java.io.InputStream in = System.in;
-    private final byte[] buffer = new byte[1024];
-    private int ptr = 0;
-    private int buf_len = 0;
+    final private java.io.BufferedReader in;
 
-    private boolean hasNextByte() {
-      if (ptr < buf_len) {
-        return true;
-      } else {
-        ptr = 0;
-        try {
-          buf_len = in.read(buffer);
-        } catch (java.io.IOException e) {
-          e.printStackTrace();
-        }
-        if (buf_len <= 0) {
-          return false;
-        }
-      }
-      return true;
+    private java.util.StringTokenizer st;
+
+    public NextScanner(java.io.InputStream is) {
+      this.in = new java.io.BufferedReader(new java.io.InputStreamReader(is));
     }
 
-    private int readByte() {
-      if (hasNextByte()) {
-        return buffer[ptr++];
-      } else {
-        return -1;
+    public String next() throws java.io.IOException {
+      if (st == null || !st.hasMoreElements()) {
+        st = new java.util.StringTokenizer(in.readLine());
       }
-    }
-
-    private static boolean isPrintableChar(int c) {
-      return 33 <= c && c <= 126;
-    }
-
-    public boolean hasNext() {
-      while (hasNextByte() && !isPrintableChar(buffer[ptr])) {
-        ptr++;
-      }
-      return hasNextByte();
-    }
-
-    public String next() {
-      if (!hasNext()) {
-        throw new java.util.NoSuchElementException();
-      }
-      StringBuilder sb = new StringBuilder();
-      int b = readByte();
-      while (isPrintableChar(b)) {
-        sb.appendCodePoint(b);
-        b = readByte();
-      }
-      return sb.toString();
-    }
-
-    public long nextLong() {
-      if (!hasNext()) {
-        throw new java.util.NoSuchElementException();
-      }
-      long n = 0;
-      boolean minus = false;
-      int b = readByte();
-      if (b == '-') {
-        minus = true;
-        b = readByte();
-      }
-      if (b < '0' || '9' < b) {
-        throw new NumberFormatException();
-      }
-      while (true) {
-        if ('0' <= b && b <= '9') {
-          n *= 10;
-          n += b - '0';
-        } else if (b == -1 || !isPrintableChar(b)) {
-          return minus ? -n : n;
-        } else {
-          throw new NumberFormatException();
-        }
-        b = readByte();
-      }
-    }
-
-    public int nextInt() {
-      long nl = nextLong();
-      if (nl < Integer.MIN_VALUE || nl > Integer.MAX_VALUE) {
-        throw new NumberFormatException();
-      }
-      return (int) nl;
-    }
-
-    public double nextDouble() {
-      return Double.parseDouble(next());
+      return st.nextToken();
     }
 
     @Override
