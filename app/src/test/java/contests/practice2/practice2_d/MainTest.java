@@ -50,6 +50,7 @@ class MainTest {
       System.setIn(input);
       System.setOut(output);
       Main.main(null);
+      //Todo アサーション、図面上の敷き詰めに対応できていない
       assertEquals(
           IOUtils.toString(Objects.requireNonNull(expected), StandardCharsets.UTF_8.name()).trim(),
           byteArrayOutputStream.toString().trim());
