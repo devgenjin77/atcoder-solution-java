@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/practice2/tasks/practice2_j
  *
  * verified:
- * - https://atcoder.jp/contests/practice2/submissions/31308544
+ * - https://atcoder.jp/contests/practice2/submissions/31347453
  *
  */
 
@@ -19,22 +19,22 @@ public class Main {
     int n = Integer.parseInt(sc.next());
     int q = Integer.parseInt(sc.next());
     Integer[] array_a = new Integer[n];
-    for(int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++) {
       array_a[i] = Integer.parseInt(sc.next());
     }
     SegTree<Integer> segTree = new SegTree<>(array_a, Integer::max, -1);
     PrintWriter pw = new PrintWriter(System.out);
-    for(int cnt = 1; cnt <= q; cnt++) {
+    for (int cnt = 1; cnt <= q; cnt++) {
       int t = Integer.parseInt(sc.next());
-      if(t == 1) {
+      if (t == 1) {
         int x = Integer.parseInt(sc.next()) - 1;
         int v = Integer.parseInt(sc.next());
         segTree.set(x, v);
-      } else if(t == 2) {
+      } else if (t == 2) {
         int l = Integer.parseInt(sc.next()) - 1;
         int r = Integer.parseInt(sc.next());
         pw.println(segTree.prod(l, r));
-      } else if(t == 3) {
+      } else if (t == 3) {
         int x = Integer.parseInt(sc.next()) - 1;
         int v = Integer.parseInt(sc.next());
         pw.println(segTree.maxRight(x, val -> val < v) + 1);
@@ -42,30 +42,6 @@ public class Main {
     }
     pw.close();
     sc.close();
-  }
-
-  //NextScannerライブラリ
-  static class NextScanner implements AutoCloseable {
-
-    final private java.io.BufferedReader in;
-
-    private java.util.StringTokenizer st;
-
-    public NextScanner(java.io.InputStream is) {
-      this.in = new java.io.BufferedReader(new java.io.InputStreamReader(is));
-    }
-
-    public String next() throws java.io.IOException {
-      if (st == null || !st.hasMoreElements()) {
-        st = new java.util.StringTokenizer(in.readLine());
-      }
-      return st.nextToken();
-    }
-
-    @Override
-    public void close() throws Exception {
-      in.close();
-    }
   }
 }
 
@@ -105,10 +81,7 @@ class SegTree<S> {
   }
 
   public void set(int p, S x) {
-    if (!(p >= 0 && p < MAX)) {
-      String errMsg = String.format("Index %d out of bounds for length %d.", p, MAX);
-      throw new ArrayIndexOutOfBoundsException(errMsg);
-    }
+    java.util.Objects.checkIndex(p, MAX);
     data[p += N] = x;
     p >>= 1;
     while (p > 0) {
@@ -118,27 +91,12 @@ class SegTree<S> {
   }
 
   public S get(int p) {
-    if (!(p >= 0 && p < MAX)) {
-      String errMsg = String.format("Index %d out of bounds for length %d.", p, MAX);
-      throw new ArrayIndexOutOfBoundsException(errMsg);
-    }
+    java.util.Objects.checkIndex(p, MAX);
     return data[p + N];
   }
 
   public S prod(int l, int r) {
-    if (l > r) {
-      String errMsg = String.format("Invalid range: [%d, %d).", l, r);
-      throw new IllegalArgumentException(errMsg);
-    }
-    if (!(l >= 0 && l <= MAX)) {
-      String errMsg = String.format("Index %d out of bounds for length %d.", l, MAX);
-      throw new ArrayIndexOutOfBoundsException(errMsg);
-    }
-    if (!(r >= 0 && r <= MAX)) {
-      String errMsg = String.format("Index %d out of bounds for length %d.", r, MAX);
-      throw new ArrayIndexOutOfBoundsException(errMsg);
-    }
-
+    java.util.Objects.checkFromToIndex(l, r, MAX);
     S sumLeft = e;
     S sumRight = e;
     l += N;
@@ -222,5 +180,56 @@ class SegTree<S> {
       sum = op.apply(data[r], sum);
     } while ((r & -r) != r);
     return 0;
+  }
+}
+
+//NextScannerライブラリ
+class NextScanner implements AutoCloseable {
+
+  final private java.io.InputStreamReader reader;
+
+  private java.util.StringTokenizer st;
+
+  private static final int BUF_SIZE = 1024;
+
+  private static final char[] buf = new char[BUF_SIZE];
+
+  public NextScanner(java.io.InputStream is) {
+    this.reader = new java.io.InputStreamReader(is);
+  }
+
+  private void readInput() {
+    StringBuilder sb = new StringBuilder();
+    try {
+      int len = this.reader.read(buf, 0, BUF_SIZE);
+      if (len < 0) {
+        throw new java.util.NoSuchElementException();
+      } else {
+        sb.append(buf);
+        if (len == BUF_SIZE) {
+          int b = this.reader.read();
+          while (33 <= b && b <= 126) {
+            sb.appendCodePoint(b);
+            len++;
+            b = this.reader.read();
+          }
+        }
+      }
+      st = new java.util.StringTokenizer(sb.substring(0, len));
+    } catch (java.io.IOException ioe) {
+      throw new java.util.InputMismatchException();
+    }
+  }
+
+  public String next() {
+    if (st == null || !st.hasMoreElements()) {
+      readInput();
+    }
+    return st.nextToken();
+  }
+
+  @Override
+  public void close() throws Exception {
+    reader.close();
   }
 }
