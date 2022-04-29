@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/practice2/tasks/practice2_b
  *
  * verified:
- * - https://atcoder.jp/contests/practice2/submissions/31337368
+ * - https://atcoder.jp/contests/practice2/submissions/31337576
  *
  */
 
@@ -39,114 +39,113 @@ public class Main {
     pw.close();
     sc.close();
   }
+}
 
-  //FenwickTreeライブラリ
-  static class FenwickTree {
+//FenwickTreeライブラリ
+class FenwickTree {
 
-    final int N;
-    long[] data;
+  final int N;
+  long[] data;
 
-    public FenwickTree(int n) {
-      N = n;
-      this.data = new long[n];
-    }
+  public FenwickTree(int n) {
+    N = n;
+    this.data = new long[n];
+  }
 
-    public FenwickTree(long[] data) {
-      N = data.length;
-      this.data = new long[this.N];
-      System.arraycopy(data, 0, this.data, 0, N);
-      for (int i = 1; i <= N; i++) {
-        int p = i + (-i & i);
-        if (p <= N) {
-          this.data[p - 1] += this.data[i - 1];
-        }
+  public FenwickTree(long[] data) {
+    N = data.length;
+    this.data = new long[this.N];
+    System.arraycopy(data, 0, this.data, 0, N);
+    for (int i = 1; i <= N; i++) {
+      int p = i + (-i & i);
+      if (p <= N) {
+        this.data[p - 1] += this.data[i - 1];
       }
-    }
-
-    public void add(int p, long x) {
-      if (!(p >= 0 && p < N)) {
-        String errMsg = String.format("Index %d out of bounds for length %d.", p, N);
-        throw new ArrayIndexOutOfBoundsException(errMsg);
-      }
-      p++;
-      while (p <= N) {
-        data[p - 1] += x;
-        p += -p & p;
-      }
-    }
-
-    public long sum(int l, int r) {
-      if (l > r) {
-        String errMsg = String.format("Invalid range: [%d, %d).", l, r);
-        throw new IllegalArgumentException(errMsg);
-      }
-      if (!(l >= 0 && l <= N)) {
-        String errMsg = String.format("Index %d out of bounds for length %d.", l, N);
-        throw new ArrayIndexOutOfBoundsException(errMsg);
-      }
-      if (!(r >= 0 && r <= N)) {
-        String errMsg = String.format("Index %d out of bounds for length %d.", r, N);
-        throw new ArrayIndexOutOfBoundsException(errMsg);
-      }
-      return sum(r) - sum(l);
-    }
-
-    private long sum(int r) {
-      long s = 0;
-      while (r > 0) {
-        s += data[r - 1];
-        r -= -r & r;
-      }
-      return s;
     }
   }
 
-
-  //NextScannerライブラリ
-  static class NextScanner implements AutoCloseable {
-
-    final private java.io.InputStreamReader reader;
-
-    private java.util.StringTokenizer st;
-
-    private static final int BUF_SIZE = 1024;
-
-    private static final char[] buf = new char[BUF_SIZE];
-
-    public NextScanner(java.io.InputStream is) {
-      this.reader = new java.io.InputStreamReader(is);
-      init();
+  public void add(int p, long x) {
+    if (!(p >= 0 && p < N)) {
+      String errMsg = String.format("Index %d out of bounds for length %d.", p, N);
+      throw new ArrayIndexOutOfBoundsException(errMsg);
     }
+    p++;
+    while (p <= N) {
+      data[p - 1] += x;
+      p += -p & p;
+    }
+  }
 
-    private void init() {
-      StringBuilder sb = new StringBuilder();
-      int len = 0;
-      while (true) {
-        try {
-          int r = this.reader.read(buf, 0, BUF_SIZE);
-          if (r < 0) {
-            break;
-          } else {
-            len += r;
-            sb.append(buf);
-          }
-        } catch (java.io.IOException ioe) {
-          throw new java.util.InputMismatchException();
+  public long sum(int l, int r) {
+    if (l > r) {
+      String errMsg = String.format("Invalid range: [%d, %d).", l, r);
+      throw new IllegalArgumentException(errMsg);
+    }
+    if (!(l >= 0 && l <= N)) {
+      String errMsg = String.format("Index %d out of bounds for length %d.", l, N);
+      throw new ArrayIndexOutOfBoundsException(errMsg);
+    }
+    if (!(r >= 0 && r <= N)) {
+      String errMsg = String.format("Index %d out of bounds for length %d.", r, N);
+      throw new ArrayIndexOutOfBoundsException(errMsg);
+    }
+    return sum(r) - sum(l);
+  }
+
+  private long sum(int r) {
+    long s = 0;
+    while (r > 0) {
+      s += data[r - 1];
+      r -= -r & r;
+    }
+    return s;
+  }
+}
+
+//NextScannerライブラリ
+class NextScanner implements AutoCloseable {
+
+  final private java.io.InputStreamReader reader;
+
+  private java.util.StringTokenizer st;
+
+  private static final int BUF_SIZE = 1024;
+
+  private static final char[] buf = new char[BUF_SIZE];
+
+  public NextScanner(java.io.InputStream is) {
+    this.reader = new java.io.InputStreamReader(is);
+    init();
+  }
+
+  private void init() {
+    StringBuilder sb = new StringBuilder();
+    int len = 0;
+    while (true) {
+      try {
+        int r = this.reader.read(buf, 0, BUF_SIZE);
+        if (r < 0) {
+          break;
+        } else {
+          len += r;
+          sb.append(buf);
         }
+      } catch (java.io.IOException ioe) {
+        throw new java.util.InputMismatchException();
       }
-      st = new java.util.StringTokenizer(sb.substring(0, len));
     }
+    st = new java.util.StringTokenizer(sb.substring(0, len));
+  }
 
-    public String next() {
-      if (st == null || !st.hasMoreElements()) {
-        throw new java.util.NoSuchElementException();
-      }
-      return st.nextToken();
+  public String next() {
+    if (st == null || !st.hasMoreElements()) {
+      throw new java.util.NoSuchElementException();
     }
+    return st.nextToken();
+  }
 
-    @Override
-    public void close() throws Exception {
-      reader.close();
-    }
+  @Override
+  public void close() throws Exception {
+    reader.close();
   }
 }
