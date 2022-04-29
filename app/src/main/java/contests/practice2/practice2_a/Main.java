@@ -4,22 +4,18 @@
  * https://atcoder.jp/contests/practice2/tasks/practice2_a
  *
  * verified:
- * - https://atcoder.jp/contests/practice2/submissions/30931705
+ * - https://atcoder.jp/contests/practice2/submissions/31336829
  *
  */
 
 package contests.practice2.practice2_a;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.StringTokenizer;
 
 public class Main {
 
   public static void main(String[] args) throws Exception {
-    NextScanner sc = new NextScanner();
+    NextScanner sc = new NextScanner(System.in);
     int n = Integer.parseInt(sc.next());
     int q = Integer.parseInt(sc.next());
     DisjointSetUnion dsu = new DisjointSetUnion(n);
@@ -119,20 +115,48 @@ public class Main {
   //NextScannerライブラリ
   static class NextScanner implements AutoCloseable {
 
-    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    final private java.io.InputStreamReader reader;
 
-    StringTokenizer st;
+    private java.util.StringTokenizer st;
 
-    public String next() throws IOException {
+    private static final int BUF_SIZE = 1024;
+
+    private static final char[] buf = new char[BUF_SIZE];
+
+    public NextScanner(java.io.InputStream is) {
+      this.reader = new java.io.InputStreamReader(is);
+      init();
+    }
+
+    private void init() {
+      StringBuilder sb = new StringBuilder();
+      int len = 0;
+      while (true) {
+        try {
+          int r = this.reader.read(buf, 0, BUF_SIZE);
+          if (r < 0) {
+            break;
+          } else {
+            len += r;
+            sb.append(buf);
+          }
+        } catch (java.io.IOException ioe) {
+          throw new java.util.InputMismatchException();
+        }
+      }
+      st = new java.util.StringTokenizer(sb.substring(0, len));
+    }
+
+    public String next() {
       if (st == null || !st.hasMoreElements()) {
-        st = new StringTokenizer(in.readLine());
+        throw new java.util.NoSuchElementException();
       }
       return st.nextToken();
     }
 
     @Override
     public void close() throws Exception {
-      in.close();
+      reader.close();
     }
   }
 }
