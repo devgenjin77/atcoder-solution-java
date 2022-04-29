@@ -4,19 +4,15 @@
  * https://atcoder.jp/contests/dp/tasks/dp_g
  *
  * verified:
- * - https://atcoder.jp/contests/dp/submissions/31335877
+ * - https://atcoder.jp/contests/dp/submissions/31336005
  *
  */
 
 package contests.dp.dp_g;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.StringTokenizer;
 
 public class Main {
 
@@ -104,16 +100,16 @@ public class Main {
             len += r;
             sb.append(buf);
           }
-        } catch (IOException ioe) {
-          throw new InputMismatchException();
+        } catch (java.io.IOException ioe) {
+          throw new java.util.InputMismatchException();
         }
       }
-      st = new StringTokenizer(sb.substring(0, len));
+      st = new java.util.StringTokenizer(sb.substring(0, len));
     }
 
     public String next() {
       if (st == null || !st.hasMoreElements()) {
-        throw new NoSuchElementException();
+        throw new java.util.NoSuchElementException();
       }
       return st.nextToken();
     }
