@@ -1,7 +1,9 @@
 /*
  * ac-library
  * DisjointSetUnion
+ *
  * https://github.com/atcoder/ac-library/blob/master/document_ja/dsu.md
+ *
  */
 package library.util;
 
@@ -9,7 +11,7 @@ package library.util;
 public class DisjointSetUnion {
 
   private final int n;
-  private int[] parent_or_size;
+  private final int[] parent_or_size;
 
   public DisjointSetUnion(int n) {
     this.n = n;
@@ -60,24 +62,16 @@ public class DisjointSetUnion {
   }
 
   public java.util.List<java.util.List<Integer>> groups() {
-    int[] leader_buf = new int[n];
-    int[] group_size = new int[n];
-    for (int i = 0; i < n; i++) {
-      leader_buf[i] = leader(i);
-      group_size[leader_buf[i]]++;
-    }
+    int m = 0;
     java.util.List<java.util.List<Integer>> result = new java.util.ArrayList<>();
-    java.util.HashMap<Integer, java.util.ArrayList<Integer>> list_map = new java.util.HashMap<>();
+    java.util.Map<Integer, Integer> map_leader = new java.util.HashMap<>();
     for (int i = 0; i < n; i++) {
-      if (i == leader_buf[i]) {
-        list_map.put(i, new java.util.ArrayList<>());
+      int lead = leader(i);
+      if (!map_leader.containsKey(lead)) {
+        map_leader.put(lead, m++);
+        result.add(new java.util.ArrayList<>());
       }
-    }
-    for (int i = 0; i < n; i++) {
-      list_map.get(leader_buf[i]).add(i);
-    }
-    for (Integer key : list_map.keySet()) {
-      result.add(list_map.get(key));
+      result.get(map_leader.get(lead)).add(i);
     }
     return result;
   }
