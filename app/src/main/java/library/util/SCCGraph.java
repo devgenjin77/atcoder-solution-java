@@ -3,62 +3,64 @@ package library.util;
 //SCCGraph ライブラリ
 public class SCCGraph {
 
-  final int _n;
-  final java.util.ArrayList<Edge> edge_list;
+  private final int _n;
+  private final java.util.ArrayList<Edge> list_edge;
 
-  private int nowOrd, grpNum;
-  private int[] gid, start, low, ord, arr_edge_to;
+  private int now_ord, grp_num;
+  private int[] gid, low, ord;
+  private int[] start;
+  private int[] edge_to;
   private java.util.Deque<Integer> visited;
 
-  SCCGraph(int n) {
+  public SCCGraph(int n) {
     this._n = n;
-    this.edge_list = new java.util.ArrayList<>();
-    this.start = new int[_n + 1];
+    this.list_edge = new java.util.ArrayList<>();
+    this.start = new int[n + 1];
   }
 
-  void addEdge(int from, int to) {
+  public final void addEdge(int from, int to) {
     java.util.Objects.checkIndex(from, this._n);
     java.util.Objects.checkIndex(to, this._n);
-    this.edge_list.add(new Edge(from, to));
+    list_edge.add(new Edge(from, to));
     start[from + 1]++;
   }
 
-  java.util.List<java.util.List<Integer>> scc() {
+  public final java.util.List<java.util.List<Integer>> scc() {
     for (int i = 1; i <= _n; i++) {
       start[i] += start[i - 1];
     }
-    arr_edge_to = new int[edge_list.size()];
+    edge_to = new int[list_edge.size()];
     int[] counter = java.util.Arrays.copyOf(start, start.length);
-    for (Edge e : edge_list) {
-      arr_edge_to[counter[e.from]++] = e.to;
+    for (Edge e : list_edge) {
+      edge_to[counter[e.from]++] = e.to;
     }
-    nowOrd = 0;
-    grpNum = 0;
+    now_ord = 0;
+    grp_num = 0;
     visited = new java.util.ArrayDeque<>();
     low = new int[_n];
     ord = new int[_n];
     gid = new int[_n];
     java.util.Arrays.fill(ord, -1);
-    for (int i = 0; i < _n; i++) {
-      if (ord[i] == -1) {
-        dfs(i);
+    for (int v = 0; v < _n; v++) {
+      if (ord[v] == -1) {
+        dfs(v);
       }
     }
-    java.util.List<java.util.List<Integer>> group_list = new java.util.ArrayList<>(grpNum);
-    for (int g = 0; g < grpNum; g++) {
+    java.util.List<java.util.List<Integer>> group_list = new java.util.ArrayList<>(grp_num);
+    for (int g = 0; g < grp_num; g++) {
       group_list.add(new java.util.ArrayList<>());
     }
     for (int i = _n - 1; i >= 0; i--) {
-      group_list.get(grpNum - 1 - gid[i]).add(i);
+      group_list.get(grp_num - 1 - gid[i]).add(i);
     }
     return group_list;
   }
 
   private void dfs(int v) {
-    low[v] = ord[v] = nowOrd++;
+    low[v] = ord[v] = now_ord++;
     visited.add(v);
     for (int i = start[v]; i < start[v + 1]; i++) {
-      int to = arr_edge_to[i];
+      int to = edge_to[i];
       if (ord[to] == -1) {
         dfs(to);
         low[v] = Math.min(low[v], low[to]);
@@ -70,18 +72,18 @@ public class SCCGraph {
       while (true) {
         int u = visited.pollLast();
         ord[u] = _n;
-        gid[u] = grpNum;
+        gid[u] = grp_num;
         if (u == v) {
           break;
         }
       }
-      grpNum++;
+      grp_num++;
     }
   }
 
-  private static class Edge {
+  private static final class Edge {
 
-    int from, to;
+    final int from, to;
 
     Edge(int from, int to) {
       this.from = from;
