@@ -4,73 +4,84 @@
  * https://atcoder.jp/contests/abc213/tasks/abc213_c
  *
  * verified:
- * - https://atcoder.jp/contests/abc213/submissions/24900566
+ * - https://atcoder.jp/contests/abc213/submissions/31456689
  *
  */
 package contests.abc.abc213.abc213_c;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.HashSet;
 
 public class Main {
 
-  public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String[] head = br.readLine().split(" ");
-    int h = Integer.parseInt(head[0]);
-    int w = Integer.parseInt(head[1]);
-    int n = Integer.parseInt(head[2]);
+  public static void main(String[] args) throws Exception {
+    NextScanner sc = new NextScanner(System.in);
+    int h = Integer.parseInt(sc.next());
+    int w = Integer.parseInt(sc.next());
+    int n = Integer.parseInt(sc.next());
     int[] array_a = new int[n];
     int[] array_b = new int[n];
-    HashSet<Integer> set_a = new HashSet<>();
-    HashSet<Integer> set_b = new HashSet<>();
-    for(int i = 0; i < n; i++){
-      String[] data = br.readLine().split(" ");
-      array_a[i] = Integer.parseInt(data[0]);
-      set_a.add(array_a[i]);
-      array_b[i] = Integer.parseInt(data[1]);
-      set_b.add(array_b[i]);
+    for (int i = 0; i < n; i++) {
+      array_a[i] = Integer.parseInt(sc.next());
+      array_b[i] = Integer.parseInt(sc.next());
     }
-    br.close();
-
-    int[] idx_a = new int[set_a.size()];
-    int idx = 0;
-    for(Integer num : set_a){
-      idx_a[idx] = num;
-      idx++;
-    }
-
-    idx = 0;
-    int[] idx_b = new int[set_b.size()];
-    for(Integer num : set_b){
-      idx_b[idx] = num;
-      idx++;
-    }
-    Arrays.sort(idx_a);
-    Arrays.sort(idx_b);
+    sc.close();
+    int[] sorted_a = Arrays.stream(array_a).sorted().distinct().toArray();
+    int[] sorted_b = Arrays.stream(array_b).sorted().distinct().toArray();
     PrintWriter pw = new PrintWriter(System.out);
-    for(int i = 0; i < n; i++){
-      pw.println(String.format("%d %d", binSearch(array_a[i], idx_a) + 1, binSearch(array_b[i], idx_b) + 1));
+    for (int i = 0; i < n; i++) {
+      int idx_a = Arrays.binarySearch(sorted_a, array_a[i]);
+      int idx_b = Arrays.binarySearch(sorted_b, array_b[i]);
+      pw.println(String.format("%d %d", idx_a + 1, idx_b + 1));
     }
     pw.close();
   }
-  static int binSearch(int target, int[] array){
-    int left = 0;
-    int right = array.length;
-    while(right > left){
-      int idx = (right + left) / 2;
-      if(array[idx] > target){
-        right = idx;
-      } else if(array[idx] < target){
-        left = idx;
+}
+
+//NextScannerライブラリ
+class NextScanner implements AutoCloseable {
+
+  private final java.io.BufferedReader br;
+
+  private java.util.StringTokenizer st;
+
+  private static final int BUF_SIZE = 1024;
+
+  private static final char[] c_buf = new char[BUF_SIZE];
+
+  public NextScanner(java.io.InputStream input) {
+    this.br = new java.io.BufferedReader(new java.io.InputStreamReader(input));
+  }
+
+  private java.util.StringTokenizer readInput() {
+    java.util.StringTokenizer st;
+    try {
+      int b = br.read(c_buf);
+      if (b == BUF_SIZE) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(c_buf);
+        sb.append(br.readLine());
+        st = new java.util.StringTokenizer(sb.toString());
+      } else if (b < 0) {
+        throw new java.util.NoSuchElementException();
       } else {
-        return idx;
+        st = new java.util.StringTokenizer(new String(c_buf, 0, b));
       }
+    } catch (java.io.IOException e) {
+      throw new java.util.InputMismatchException(e.getMessage());
     }
-    return right;
+    return st;
+  }
+
+  public String next() throws java.io.IOException {
+    if (st == null || !st.hasMoreElements()) {
+      st = readInput();
+    }
+    return st.nextToken();
+  }
+
+  @Override
+  public void close() throws Exception {
+    br.close();
   }
 }
