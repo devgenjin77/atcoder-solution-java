@@ -9,6 +9,7 @@
  * note:
  * 解を二分探索で求める
  */
+
 package contests.typical90.typical90_00x.typical90_001;
 
 import java.io.BufferedReader;
