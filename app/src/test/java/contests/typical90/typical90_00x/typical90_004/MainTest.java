@@ -1,4 +1,4 @@
-package contests.typical90.typical90_004;
+package contests.typical90.typical90_00x.typical90_004;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,12 +26,13 @@ class MainTest {
 
   final static String category = "OTHER";
   final static String contest = "TYPICAL90";
+  final static String problem_prefix = "00X";
   final static String problem = "004";
 
   final static String testDataInDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("in").toString();
+      .add(category).add(contest).add(problem_prefix).add(problem).add("in").toString();
   final static String testDataOutDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("out").toString();
+      .add(category).add(contest).add(problem_prefix).add(problem).add("out").toString();
 
   @BeforeEach
   void setUp() {
@@ -50,7 +51,8 @@ class MainTest {
       System.setIn(input);
       System.setOut(output);
       Main.main(null);
-      assertEquals(IOUtils.toString(Objects.requireNonNull(expected), StandardCharsets.UTF_8.name()).trim(),
+      assertEquals(
+          IOUtils.toString(Objects.requireNonNull(expected), StandardCharsets.UTF_8.name()).trim(),
           byteArrayOutputStream.toString().trim());
     }
   }
