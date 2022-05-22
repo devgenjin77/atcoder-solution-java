@@ -6,7 +6,7 @@
  * verified:
  * - https://atcoder.jp/contests/abc212/submissions/30322353
  */
-package contests.abc.abc212.abc212_g;
+package contests.abc.abc21x.abc212.abc212_g;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -15,9 +15,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//TODO 後ほど改めて解き直す問題
 public class Main {
 
-  static final long MOD = 998244353L;
+  static final long MOD = 998_244_353L;
 
   static void solve(BufferedReader br, PrintWriter pw) throws Exception {
     long p = Long.parseLong(br.readLine());
