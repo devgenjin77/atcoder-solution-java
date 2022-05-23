@@ -19,8 +19,8 @@ public class SCCGraph {
   }
 
   public final void addEdge(int from, int to) {
-    java.util.Objects.checkIndex(from, this._n);
-    java.util.Objects.checkIndex(to, this._n);
+    checkIndex(from);
+    checkIndex(to);
     list_edge.add(new Edge(from, to));
     start[from + 1]++;
   }
@@ -78,6 +78,13 @@ public class SCCGraph {
         }
       }
       grp_num++;
+    }
+  }
+
+  void checkIndex(int i) {
+    if(!(i >= 0 && i < this._n)) {
+      String msg = String.format("Index %d out of bounds for length %d", i, this._n);
+      throw new IndexOutOfBoundsException(msg);
     }
   }
 
