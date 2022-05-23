@@ -4,25 +4,30 @@
  * https://atcoder.jp/contests/typical90/tasks/typical90_t
  *
  * verified:
- * - https://atcoder.jp/contests/typical90/submissions/27971077
+ * - https://atcoder.jp/contests/typical90/submissions/31920999
+ *
+ * note:
+ * 整数で扱う
  *
  */
-package contests.typical90.typical90_020;
+
+package contests.typical90.typical90_02.typical90_020;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String[] input = br.readLine().split(" ");
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    long a = Long.parseLong(st.nextToken());
+    long b = Long.parseLong(st.nextToken());
+    long c = Long.parseLong(st.nextToken());
     br.close();
-    long a = Long.parseLong(input[0]);
-    long b = Long.parseLong(input[1]);
-    long c = Long.parseLong(input[2]);
-    System.out.println(pow(c, b) > a ? "Yes" : "No");
+    System.out.println(a < pow(c, b) ? "Yes" : "No");
   }
 
   static long pow(long x, long n) {
