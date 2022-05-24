@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/typical90/tasks/typical90_aa
  *
  * verified:
- * - https://atcoder.jp/contests/typical90/submissions/31926711
+ * - https://atcoder.jp/contests/typical90/submissions/31926769
  *
  * note:
  * - mapをつかう
@@ -29,9 +29,7 @@ public class Main {
     PrintWriter pw = new PrintWriter(System.out);
     for (int id = 1; id <= n; id++) {
       String name = br.readLine();
-      if (used_name.contains(name)) {
-        // do nothing
-      } else {
+      if (!used_name.contains(name)) {
         used_name.add(name);
         pw.println(id);
       }
