@@ -4,34 +4,39 @@
  * https://atcoder.jp/contests/typical90/tasks/typical90_aa
  *
  * verified:
- * - https://atcoder.jp/contests/typical90/submissions/25636563
+ * - https://atcoder.jp/contests/typical90/submissions/31926711
+ *
+ * note:
+ * - mapをつかう
  *
  */
-package contests.typical90.typical90_027;
+
+package contests.typical90.typical90_03.typical90_027;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
-    HashSet<String> set = new HashSet<>();
+    Set<String> used_name = new HashSet<>();
     PrintWriter pw = new PrintWriter(System.out);
-    for(int day = 1; day <= n; day++){
-      String userName = br.readLine();
-      if(set.contains(userName)){
-        continue;
+    for (int id = 1; id <= n; id++) {
+      String name = br.readLine();
+      if (used_name.contains(name)) {
+        // do nothing
       } else {
-        pw.println(day);
-        set.add(userName);
+        used_name.add(name);
+        pw.println(id);
       }
     }
-    br.close();
     pw.close();
+    br.close();
   }
 }
