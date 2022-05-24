@@ -4,14 +4,19 @@
  * https://atcoder.jp/contests/typical90/tasks/typical90_af
  *
  * verified:
- * - https://atcoder.jp/contests/typical90/submissions/28281507
+ * - https://atcoder.jp/contests/typical90/submissions/31928218
+ *
+ * note:
+ * - 順列を生成する
  *
  */
-package contests.typical90.typical90_032;
+
+package contests.typical90.typical90_04.typical90_032;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -19,47 +24,44 @@ public class Main {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
     int[][] array_a = new int[n][n];
-    boolean[][] disable_pairs = new boolean[n][n];
     for (int i = 0; i < n; i++) {
-      String[] input_a = br.readLine().split(" ");
+      StringTokenizer st_a = new StringTokenizer(br.readLine());
       for (int j = 0; j < n; j++) {
-        array_a[i][j] = Integer.parseInt(input_a[j]);
+        array_a[i][j] = Integer.parseInt(st_a.nextToken());
       }
     }
     int m = Integer.parseInt(br.readLine());
+    boolean[][] isNG = new boolean[n][n];
     for (int i = 0; i < m; i++) {
-      String[] xy = br.readLine().split(" ");
-      int xi = Integer.parseInt(xy[0]) - 1;
-      int yi = Integer.parseInt(xy[1]) - 1;
-      disable_pairs[xi][yi] = true;
-      disable_pairs[yi][xi] = true;
+      StringTokenizer st_x = new StringTokenizer(br.readLine());
+      int x = Integer.parseInt(st_x.nextToken()) - 1;
+      int y = Integer.parseInt(st_x.nextToken()) - 1;
+      isNG[x][y] = isNG[y][x] = true;
     }
     br.close();
-
-    int[] p = new int[n];
+    int[] array_p = new int[n];
     for (int i = 0; i < n; i++) {
-      p[i] = i;
+      array_p[i] = i;
     }
     int ans = Integer.MAX_VALUE;
     do {
-      boolean canFinish = true;
-      for (int i = 1; i < n; i++) {
-        //完走できるかチェック
-        if (disable_pairs[p[i - 1]][p[i]]) {
-          canFinish = false;
+      boolean isOk = true;
+      for (int i = 0; i < n - 1; i++) {
+        if (isNG[array_p[i]][array_p[i + 1]] || isNG[array_p[i + 1]][array_p[i]]) {
+          isOk = false;
           break;
         }
       }
-      if (!canFinish) {
+      if (!isOk) {
         continue;
       }
-      int sub_ans = 0;
-      for (int stage = 0; stage < n; stage++) {
-        sub_ans += array_a[p[stage]][stage];
+      int ans_sub = 0;
+      for (int i = 0; i < n; i++) {
+        ans_sub += array_a[array_p[i]][i];
       }
-      ans = Math.min(sub_ans, ans);
-    } while (nextPermutation(p));
-    System.out.println(ans != Integer.MAX_VALUE ? ans : -1);
+      ans = Math.min(ans_sub, ans);
+    } while (nextPermutation(array_p));
+    System.out.println(ans == Integer.MAX_VALUE ? -1 : ans);
   }
 
   static boolean nextPermutation(int[] array) {
