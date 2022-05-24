@@ -4,35 +4,36 @@
  * https://atcoder.jp/contests/typical90/tasks/typical90_al
  *
  * verified:
- * - https://atcoder.jp/contests/typical90/submissions/28312746
+ * - https://atcoder.jp/contests/typical90/submissions/31929428
+ *
+ * note:
+ * - オーバーフローに注意する
  *
  */
-package contests.typical90.typical90_038;
+
+package contests.typical90.typical90_04.typical90_038;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
 
-  final static long MAX_ANSWER = 1_000_000_000_000_000_000L;
+  static final long MAX = 1_000_000_000_000_000_000L;
 
   public static void main(String[] args) throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    String[] input = br.readLine().split(" ");
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    long a = Long.parseLong(st.nextToken());
+    long b = Long.parseLong(st.nextToken());
     br.close();
-    long a = Long.parseLong(input[0]);
-    long b = Long.parseLong(input[1]);
-    long gcd = gcd(a, b);
-    long ad = a / gcd;
-    long bd = b / gcd;
-    long lim = MAX_ANSWER / gcd;
-    if (ad > lim / bd || bd > lim / ad) {
+    long gcd_ab = gcd(a, b);
+    if (a > MAX / (b / gcd_ab)) {
       System.out.println("Large");
     } else {
-      System.out.println(ad * bd * gcd);
+      System.out.println(a / gcd_ab * b);
     }
-    return;
   }
 
   static long gcd(long a, long b) {
