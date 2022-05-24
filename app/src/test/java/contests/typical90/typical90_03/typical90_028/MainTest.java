@@ -1,4 +1,4 @@
-package contests.typical90.typical90_028;
+package contests.typical90.typical90_03.typical90_028;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,12 +26,13 @@ class MainTest {
 
   final static String category = "OTHER";
   final static String contest = "TYPICAL90";
+  final static String problem_prefix = "03";
   final static String problem = "028";
 
   final static String testDataInDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("in").toString();
+      .add(category).add(contest).add(problem_prefix).add(problem).add("in").toString();
   final static String testDataOutDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("out").toString();
+      .add(category).add(contest).add(problem_prefix).add(problem).add("out").toString();
 
   @BeforeEach
   void setUp() {
