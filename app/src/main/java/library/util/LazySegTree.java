@@ -5,9 +5,10 @@
  * https://atcoder.github.io/ac-library/document_ja/lazysegtree.html
  *
  */
+
 package library.util;
 
-class LazySegTree<S, F> {
+public class LazySegTree<S, F> {
 
   private final int _n;
   private final int size;
@@ -53,7 +54,7 @@ class LazySegTree<S, F> {
   }
 
   void set(int p, S x) {
-    java.util.Objects.checkIndex(p, this._n);
+    checkIndex(p);
     p += this.size;
     pushTo(p);
     this.data[p] = x;
@@ -61,14 +62,14 @@ class LazySegTree<S, F> {
   }
 
   S get(int p) {
-    java.util.Objects.checkIndex(p, this._n);
+    checkIndex(p);
     p += this.size;
     pushTo(p);
     return this.data[p];
   }
 
   S prod(int l, int r) {
-    java.util.Objects.checkFromToIndex(l, r, this._n);
+    checkFromToIndex(l, r);
     if (l == r) {
       return e;
     }
@@ -95,7 +96,7 @@ class LazySegTree<S, F> {
   }
 
   void apply(int p, F f) {
-    java.util.Objects.checkIndex(p, this._n);
+    checkIndex(p);
     p += this.size;
     pushTo(p);
     this.data[p] = mapping.apply(f, data[p]);
@@ -103,7 +104,7 @@ class LazySegTree<S, F> {
   }
 
   void apply(int l, int r, F f) {
-    java.util.Objects.checkFromToIndex(l, r, this._n);
+    checkFromToIndex(l, r);
     if (l == r) {
       return;
     }
@@ -243,6 +244,20 @@ class LazySegTree<S, F> {
       if (((r >> i) << i) != r) {
         push((r - 1) >> i);
       }
+    }
+  }
+
+  void checkIndex(int i) {
+    if (!(i >= 0 && i < this._n)) {
+      String msg = String.format("Index %d out of bounds for length %d", i, this._n);
+      throw new IndexOutOfBoundsException(msg);
+    }
+  }
+
+  void checkFromToIndex(int l, int r) {
+    if (l < 0 || l > r || r > this._n) {
+      String msg = String.format("Range [%d, %d) out of bounds for length %d", l, r, this._n);
+      throw new IndexOutOfBoundsException(msg);
     }
   }
 

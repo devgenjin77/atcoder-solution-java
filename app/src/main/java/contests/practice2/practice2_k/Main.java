@@ -4,25 +4,25 @@
  * https://atcoder.jp/contests/practice2/tasks/practice2_k
  *
  * verified:
- * - https://atcoder.jp/contests/practice2/submissions/30150928
+ * - https://atcoder.jp/contests/practice2/submissions/31950055
  *
  */
+
 package contests.practice2.practice2_k;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Main {
 
   static final Long MOD = 998244353l;
 
-  public static void main(String[] args) throws IOException {
-    FastScanner sc = new FastScanner();
-    int n = sc.nextInt();
-    int q = sc.nextInt();
+  public static void main(String[] args) throws Exception {
+    NextScanner sc = new NextScanner(System.in);
+    int n = Integer.parseInt(sc.next());
+    int q = Integer.parseInt(sc.next());
     StructS[] data = new StructS[n];
     for (int i = 0; i < n; i++) {
-      data[i] = new StructS(sc.nextLong(), 1l);
+      data[i] = new StructS(Long.parseLong(sc.next()), 1l);
     }
     //区間加算・区間和取得
     LazySegTree<StructS, StructT> lazySegTree =
@@ -30,13 +30,13 @@ public class Main {
             Main::mapping, Main::composition, new StructT(1l, 0l));
     PrintWriter pw = new PrintWriter(System.out);
     for (int cnt = 0; cnt < q; cnt++) {
-      int type = sc.nextInt();
-      int l = sc.nextInt();
-      int r = sc.nextInt();
+      int type = Integer.parseInt(sc.next());
+      int l = Integer.parseInt(sc.next());
+      int r = Integer.parseInt(sc.next());
       switch (type) {
         case 0:
-          long b = sc.nextLong();
-          long c = sc.nextLong();
+          long b = Long.parseLong(sc.next());
+          long c = Long.parseLong(sc.next());
           lazySegTree.apply(l, r, new StructT(b, c));
           break;
         case 1:
@@ -84,6 +84,7 @@ public class Main {
     return new StructT((f1.val1 * f2.val1) % MOD, ((f1.val1 * f2.val2) + f1.val2) % MOD);
   }
 
+
   static class LazySegTree<S, F> {
 
     private final int _n;
@@ -130,7 +131,7 @@ public class Main {
     }
 
     void set(int p, S x) {
-      java.util.Objects.checkIndex(p, this._n);
+      checkIndex(p);
       p += this.size;
       pushTo(p);
       this.data[p] = x;
@@ -138,14 +139,14 @@ public class Main {
     }
 
     S get(int p) {
-      java.util.Objects.checkIndex(p, this._n);
+      checkIndex(p);
       p += this.size;
       pushTo(p);
       return this.data[p];
     }
 
     S prod(int l, int r) {
-      java.util.Objects.checkFromToIndex(l, r, this._n);
+      checkFromToIndex(l, r);
       if (l == r) {
         return e;
       }
@@ -172,7 +173,7 @@ public class Main {
     }
 
     void apply(int p, F f) {
-      java.util.Objects.checkIndex(p, this._n);
+      checkIndex(p);
       p += this.size;
       pushTo(p);
       this.data[p] = mapping.apply(f, data[p]);
@@ -180,7 +181,7 @@ public class Main {
     }
 
     void apply(int l, int r, F f) {
-      java.util.Objects.checkFromToIndex(l, r, this._n);
+      checkFromToIndex(l, r);
       if (l == r) {
         return;
       }
@@ -323,6 +324,20 @@ public class Main {
       }
     }
 
+    void checkIndex(int i) {
+      if (!(i >= 0 && i < this._n)) {
+        String msg = String.format("Index %d out of bounds for length %d", i, this._n);
+        throw new IndexOutOfBoundsException(msg);
+      }
+    }
+
+    void checkFromToIndex(int l, int r) {
+      if (l < 0 || l > r || r > this._n) {
+        String msg = String.format("Range [%d, %d) out of bounds for length %d", l, r, this._n);
+        throw new IndexOutOfBoundsException(msg);
+      }
+    }
+
     private static int ceilPow2(int n) {
       int x = 0;
       while ((1 << x) < n) {
@@ -332,105 +347,51 @@ public class Main {
     }
   }
 
+  //NextScannerライブラリ
+  static class NextScanner implements AutoCloseable {
 
-  // FastScannerライブラリ
-  static class FastScanner {
+    private final java.io.BufferedReader br;
 
-    private final java.io.InputStream in = System.in;
-    private final byte[] buffer = new byte[1024];
-    private int ptr = 0;
-    private int buf_len = 0;
+    private java.util.StringTokenizer st;
 
-    private boolean hasNextByte() {
-      if (ptr < buf_len) {
-        return true;
-      } else {
-        ptr = 0;
-        try {
-          buf_len = in.read(buffer);
-        } catch (java.io.IOException e) {
-          e.printStackTrace();
-        }
-        if (buf_len <= 0) {
-          return false;
-        }
-      }
-      return true;
+    private static final int BUF_SIZE = 1 << 16;
+
+    private static final char[] c_buf = new char[BUF_SIZE];
+
+    public NextScanner(java.io.InputStream input) {
+      this.br = new java.io.BufferedReader(new java.io.InputStreamReader(input));
     }
 
-    private int readByte() {
-      if (hasNextByte()) {
-        return buffer[ptr++];
-      } else {
-        return -1;
-      }
-    }
-
-    private static boolean isPrintableChar(int c) {
-      return 33 <= c && c <= 126;
-    }
-
-    public boolean hasNext() {
-      while (hasNextByte() && !isPrintableChar(buffer[ptr])) {
-        ptr++;
-      }
-      return hasNextByte();
-    }
-
-    public String next() {
-      if (!hasNext()) {
-        throw new java.util.NoSuchElementException();
-      }
-      StringBuilder sb = new StringBuilder();
-      int b = readByte();
-      while (isPrintableChar(b)) {
-        sb.appendCodePoint(b);
-        b = readByte();
-      }
-      return sb.toString();
-    }
-
-    public long nextLong() {
-      if (!hasNext()) {
-        throw new java.util.NoSuchElementException();
-      }
-      long n = 0;
-      boolean minus = false;
-      int b = readByte();
-      if (b == '-') {
-        minus = true;
-        b = readByte();
-      }
-      if (b < '0' || '9' < b) {
-        throw new NumberFormatException();
-      }
-      while (true) {
-        if ('0' <= b && b <= '9') {
-          n *= 10;
-          n += b - '0';
-        } else if (b == -1 || !isPrintableChar(b)) {
-          return minus ? -n : n;
+    private java.util.StringTokenizer readInput() {
+      java.util.StringTokenizer st;
+      try {
+        int b = br.read(c_buf);
+        if (b == BUF_SIZE) {
+          StringBuilder sb = new StringBuilder();
+          sb.append(c_buf);
+          sb.append(br.readLine());
+          st = new java.util.StringTokenizer(sb.toString());
+        } else if (b < 0) {
+          throw new java.util.NoSuchElementException();
         } else {
-          throw new NumberFormatException();
+          st = new java.util.StringTokenizer(new String(c_buf, 0, b));
         }
-        b = readByte();
+      } catch (java.io.IOException e) {
+        throw new java.util.InputMismatchException(e.getMessage());
       }
+      return st;
     }
 
-    public int nextInt() {
-      long nl = nextLong();
-      if (nl < Integer.MIN_VALUE || nl > Integer.MAX_VALUE) {
-        throw new NumberFormatException();
+    public String next() throws java.io.IOException {
+      if (st == null || !st.hasMoreElements()) {
+        st = readInput();
       }
-      return (int) nl;
+      return st.nextToken();
     }
 
-    public double nextDouble() {
-      return Double.parseDouble(next());
-    }
-
-    public void close() throws java.io.IOException {
-      in.close();
+    @Override
+    public void close() throws Exception {
+      br.close();
     }
   }
 }
