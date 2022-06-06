@@ -4,10 +4,11 @@
  * https://atcoder.jp/contests/abc240/tasks/abc240_b
  *
  * verified:
- * - https://atcoder.jp/contests/abc240/submissions/29643074
+ * - https://atcoder.jp/contests/abc240/submissions/32288959
  *
  */
-package contests.abc.abc240.abc240_b;
+
+package contests.abc.abc24x.abc240.abc240_b;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,10 +24,10 @@ public class Main {
     int n = Integer.parseInt(br.readLine());
     StringTokenizer st = new StringTokenizer(br.readLine());
     br.close();
-    Set<Integer> set = new HashSet<>();
-    while (st.hasMoreTokens()) {
-      set.add(Integer.parseInt(st.nextToken()));
+    Set<Integer> set_a = new HashSet<>();
+    for (int i = 0; i < n; i++) {
+      set_a.add(Integer.parseInt(st.nextToken()));
     }
-    System.out.println(set.size());
+    System.out.println(set_a.size());
   }
 }
