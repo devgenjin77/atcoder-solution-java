@@ -4,7 +4,7 @@
  * https://atcoder.jp/contests/abc215/tasks/abc215_b
  *
  * verified:
- * - https://atcoder.jp/contests/abc215/submissions/32429178
+ * - https://atcoder.jp/contests/abc215/submissions/32429300
  *
  */
 
@@ -17,8 +17,8 @@ import java.io.InputStreamReader;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    long n = Long.parseLong(br.readLine());
+    final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    final long n = Long.parseLong(br.readLine());
     br.close();
     System.out.println(Long.toBinaryString(n).length() - 1);
   }
