@@ -9,11 +9,11 @@ package library.util;
 //SegTreeライブラリ
 public class SegTree<S> {
 
-  final int MAX;
-  final int N;
-  final java.util.function.BinaryOperator<S> op;
-  final S e;
-  final S[] data;
+  private final int MAX;
+  private final int N;
+  private final java.util.function.BinaryOperator<S> op;
+  private final S e;
+  private final S[] data;
 
   public SegTree(int n, java.util.function.BinaryOperator<S> op, S e) {
     if (n < 0) {
@@ -42,7 +42,7 @@ public class SegTree<S> {
   }
 
   public void set(int p, S x) {
-    java.util.Objects.checkIndex(p, MAX);
+    checkIndex(p);
     data[p += N] = x;
     p >>= 1;
     while (p > 0) {
@@ -52,12 +52,12 @@ public class SegTree<S> {
   }
 
   public S get(int p) {
-    java.util.Objects.checkIndex(p, MAX);
+    checkIndex(p);
     return data[p + N];
   }
 
   public S prod(int l, int r) {
-    java.util.Objects.checkFromToIndex(l, r, MAX);
+    checkFromToIndex(l, r);
     S sumLeft = e;
     S sumRight = e;
     l += N;
@@ -141,5 +141,19 @@ public class SegTree<S> {
       sum = op.apply(data[r], sum);
     } while ((r & -r) != r);
     return 0;
+  }
+
+  private void checkIndex(int i) {
+    if (!(i >= 0 && i < this.MAX)) {
+      String msg = String.format("Index %d out of bounds for length %d", i, this.MAX);
+      throw new IndexOutOfBoundsException(msg);
+    }
+  }
+
+  private void checkFromToIndex(int l, int r) {
+    if (l < 0 || l > r || r > this.MAX) {
+      String msg = String.format("Range [%d, %d) out of bounds for length %d", l, r, this.MAX);
+      throw new IndexOutOfBoundsException(msg);
+    }
   }
 }
