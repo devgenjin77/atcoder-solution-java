@@ -1,10 +1,10 @@
 /*
  * AtCoder Beginner Contest 220
  * A - Find Multiple
- * https://atcoder.jp/contests/abc240/tasks/abc240_a
+ * https://atcoder.jp/contests/abc220/tasks/abc220_a
  *
  * verified:
- * - https://atcoder.jp/contests/abc220/submissions/32819261
+ * - https://atcoder.jp/contests/abc220/submissions/33885599
  *
  */
 
@@ -25,6 +25,8 @@ public class Main {
     final int c = Integer.parseInt(st.nextToken());
     br.close();
 
+    // Bから(B mod C)を引くと、B以下の最大のCの倍数が求まる。
+    // これがA以上ならYES
     int ans = b - (b % c);
     System.out.println(ans >= a ? ans : -1);
   }
