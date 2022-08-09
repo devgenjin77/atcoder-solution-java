@@ -1,4 +1,4 @@
-package contests.abc.abc230.abc230_f;
+package contests.abc.abc23x.abc231.abc231_a;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,13 +25,14 @@ class MainTest {
   PrintStream _output;
 
   final static String category = "ABC";
-  final static String contest = "ABC230";
-  final static String problem = "F";
+  final static String prefix = "ABC23X";
+  final static String contest = "ABC231";
+  final static String problem = "A";
 
   final static String testDataInDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("in").toString();
+      .add(category).add(prefix).add(contest).add(problem).add("in").toString();
   final static String testDataOutDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("out").toString();
+      .add(category).add(prefix).add(contest).add(problem).add("out").toString();
 
   @BeforeEach
   void setUp() {
@@ -50,9 +51,10 @@ class MainTest {
       System.setIn(input);
       System.setOut(output);
       Main.main(null);
-      assertEquals(
-          IOUtils.toString(Objects.requireNonNull(expected), StandardCharsets.UTF_8.name()).trim(),
-          byteArrayOutputStream.toString().trim());
+      // 誤差は10^-3以下であること
+      // delta
+      double expectedValue = Double.parseDouble(IOUtils.toString(expected, StandardCharsets.UTF_8.name()).trim());
+      assertEquals(expectedValue, Double.parseDouble(byteArrayOutputStream.toString().trim()), 0.001);
     }
   }
 
