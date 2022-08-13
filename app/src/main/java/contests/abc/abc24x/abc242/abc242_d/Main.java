@@ -1,64 +1,58 @@
 /*
- * ABC242
+ * AtCoder Beginner Contest 242
  * D - ABC Transform
  * https://atcoder.jp/contests/abc242/tasks/abc242_d
  *
  * verified:
- * - https://atcoder.jp/contests/abc242/submissions/29960654
+ * - https://atcoder.jp/contests/abc242/submissions/33976454
+ *
+ * note:
  *
  */
-package contests.abc.abc242.abc242_d;
 
-import java.io.IOException;
-import java.io.InputStream;
+package contests.abc.abc24x.abc242.abc242_d;
+
 import java.io.PrintWriter;
-import java.util.NoSuchElementException;
 
 public class Main {
 
-  public static void main(String[] args) throws IOException {
-    FastScanner sc = new FastScanner();
-    String s = sc.next();
-    int q = sc.nextInt();
-    PrintWriter pw = new PrintWriter(System.out);
+  public static void main(String[] args) throws Exception {
+    final FastScanner sc = new FastScanner(System.in);
+    final String s = sc.next();
+    final int q = sc.nextInt();
+    final PrintWriter pw = new PrintWriter(System.out);
     for (int i = 0; i < q; i++) {
       long t = sc.nextLong();
-      long k = sc.nextLong();
-      pw.println(solve(s, t, k - 1));
+      long k = sc.nextLong() - 1;
+      pw.println("ABC".charAt(solve(s, t, k)));
     }
     pw.close();
     sc.close();
   }
 
-  static char solve(String s, long t, long k) {
-    long tmp_k = k;
-    long tmp_t = t;
-    long offset = 0;
-    while (tmp_t > 0 && tmp_k > 0) {
-      if ((tmp_k & 1l) == 1) {
-        offset += 2;
-      } else {
-        offset += 1;
-      }
-      tmp_k >>= 1;
-      tmp_t--;
+  static int solve(String s, long t, long k) {
+    if (t == 0) {
+      return "ABC".indexOf(s.charAt((int) k));
+    } else if (k == 0) {
+      long ret = t + "ABC".indexOf(s.charAt(0));
+      return (int) (ret % 3L);
     }
-    int d = (int) (offset) % 3;
-    if (tmp_t > 0) {
-      d += (tmp_t % 3) + (s.charAt(0) - 'A');
-    } else {
-      d += s.charAt((int) tmp_k) - 'A';
-    }
-    return "ABC".charAt(d % 3);
+    int offset = k % 2 == 0 ? 1 : 2;
+    int ret = solve(s, t - 1, k >> 1L) + offset;
+    return ret % 3;
   }
 
-  // ライブラリ
-  static class FastScanner {
+  // FastScannerライブラリ
+  static class FastScanner implements AutoCloseable {
 
-    private final InputStream in = System.in;
+    private final java.io.InputStream in;
     private final byte[] buffer = new byte[1024];
     private int ptr = 0;
     private int buflen = 0;
+
+    public FastScanner(java.io.InputStream input) {
+      this.in = input;
+    }
 
     private boolean hasNextByte() {
       if (ptr < buflen) {
@@ -67,7 +61,7 @@ public class Main {
         ptr = 0;
         try {
           buflen = in.read(buffer);
-        } catch (IOException e) {
+        } catch (java.io.IOException e) {
           e.printStackTrace();
         }
         if (buflen <= 0) {
@@ -98,7 +92,7 @@ public class Main {
 
     public String next() {
       if (!hasNext()) {
-        throw new NoSuchElementException();
+        throw new java.util.NoSuchElementException();
       }
       StringBuilder sb = new StringBuilder();
       int b = readByte();
@@ -111,7 +105,7 @@ public class Main {
 
     public long nextLong() {
       if (!hasNext()) {
-        throw new NoSuchElementException();
+        throw new java.util.NoSuchElementException();
       }
       long n = 0;
       boolean minus = false;
@@ -148,7 +142,8 @@ public class Main {
       return Double.parseDouble(next());
     }
 
-    public void close() throws IOException {
+    @Override
+    public void close() throws Exception {
       in.close();
     }
   }
