@@ -1,88 +1,62 @@
 /*
- * ABC243
- * E - Edge Deletion
- * https://atcoder.jp/contests/abc243/tasks/abc243_e
+ * AtCoder Beginner Contest 250
+ * C - Adjacent Swaps
+ * https://atcoder.jp/contests/abc250/tasks/abc250_c
  *
  * verified:
- * - https://atcoder.jp/contests/abc243/submissions/30111686
+ * - https://atcoder.jp/contests/abc250/submissions/35255510
+ *
+ * note:
+ *
  *
  */
-package contests.abc.abc243.abc243_e;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.NoSuchElementException;
+package contests.abc.abc25x.abc250.abc250_c;
 
 public class Main {
 
-  static final long INF = 1L << 60;
-
-  public static void main(String[] args) throws IOException {
-    FastScanner sc = new FastScanner();
-    int n = sc.nextInt();
-    int m = sc.nextInt();
-    long[][] dist = new long[n][n];
+  public static void main(String[] args) throws Exception {
+    final FastScanner sc = new FastScanner(System.in);
+    final int n = sc.nextInt();
+    final int q = sc.nextInt();
+    final int[] num_to_idx = new int[n];
+    final int[] idx_to_num = new int[n];
     for (int i = 0; i < n; i++) {
-      Arrays.fill(dist[i], INF);
+      num_to_idx[i] = i;
+      idx_to_num[i] = i;
     }
-    for (int i = 0; i < n; i++) {
-      dist[i][i] = 0;
-    }
-    Edge[] arr_edge = new Edge[m];
-    for (int i = 0; i < m; i++) {
-      int a = sc.nextInt() - 1;
-      int b = sc.nextInt() - 1;
-      long c = sc.nextLong();
-      arr_edge[i] = new Edge(a, b, c);
-      dist[a][b] = c;
-      dist[b][a] = c;
+    for (int i = 0; i < q; i++) {
+      int x = sc.nextInt() - 1;
+      int idx1 = num_to_idx[x];
+      int idx2 = idx1 == n - 1 ? idx1 - 1 : idx1 + 1;
+      int y = idx_to_num[idx2];
+      //num->idxの更新
+      num_to_idx[x] = idx2;
+      num_to_idx[y] = idx1;
+      //idx->numの更新
+      idx_to_num[idx1] = y;
+      idx_to_num[idx2] = x;
     }
     sc.close();
 
-    //ワーシャルフロイド法
-    for (int mid = 0; mid < n; mid++) {
-      for (int frm = 0; frm < n; frm++) {
-        for (int to = 0; to < n; to++) {
-          dist[frm][to] = Math.min(dist[frm][mid] + dist[mid][to], dist[frm][to]);
-        }
-      }
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < n; i++) {
+      sb.append(idx_to_num[i] + 1).append(' ');
     }
-    int cnt = 0;
-    for (int i = 0; i < m; i++) {
-      Edge edge = arr_edge[i];
-      for (int mid = 0; mid < n; mid++) {
-        if (mid == edge.from || mid == edge.to) {
-          continue;
-        }
-        if (dist[edge.from][mid] + dist[mid][edge.to] <= edge.cost) {
-          cnt++;
-          break;
-        }
-      }
-    }
-    System.out.println(cnt);
+    System.out.println(sb.deleteCharAt(sb.length() - 1));
   }
 
-  static class Edge {
+  // FastScannerライブラリ
+  static class FastScanner implements AutoCloseable {
 
-    int from, to;
-    long cost;
-
-    Edge(int from, int to, long cost) {
-      this.from = from;
-      this.to = to;
-      this.cost = cost;
-    }
-  }
-
-  // ライブラリ
-  static class FastScanner {
-
-    private final InputStream in = System.in;
+    private final java.io.InputStream in;
     private final byte[] buffer = new byte[1024];
     private int ptr = 0;
     private int buflen = 0;
+
+    public FastScanner(java.io.InputStream input) {
+      this.in = input;
+    }
 
     private boolean hasNextByte() {
       if (ptr < buflen) {
@@ -91,7 +65,7 @@ public class Main {
         ptr = 0;
         try {
           buflen = in.read(buffer);
-        } catch (IOException e) {
+        } catch (java.io.IOException e) {
           e.printStackTrace();
         }
         if (buflen <= 0) {
@@ -122,7 +96,7 @@ public class Main {
 
     public String next() {
       if (!hasNext()) {
-        throw new NoSuchElementException();
+        throw new java.util.NoSuchElementException();
       }
       StringBuilder sb = new StringBuilder();
       int b = readByte();
@@ -135,7 +109,7 @@ public class Main {
 
     public long nextLong() {
       if (!hasNext()) {
-        throw new NoSuchElementException();
+        throw new java.util.NoSuchElementException();
       }
       long n = 0;
       boolean minus = false;
@@ -172,7 +146,8 @@ public class Main {
       return Double.parseDouble(next());
     }
 
-    public void close() throws IOException {
+    @Override
+    public void close() throws Exception {
       in.close();
     }
   }
