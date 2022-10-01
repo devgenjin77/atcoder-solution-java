@@ -1,14 +1,17 @@
 /*
- * ABC250
+ * AtCoder Beginner Contest 250
  * D - 250-like Number
  * https://atcoder.jp/contests/abc250/tasks/abc250_d
  *
  * verified:
- * - https://atcoder.jp/contests/abc250/submissions/31574987
+ * - https://atcoder.jp/contests/abc250/submissions/35263828
+ *
+ * note:
+ *
  *
  */
 
-package contests.abc.abc250.abc250_d;
+package contests.abc.abc25x.abc250.abc250_d;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,33 +22,35 @@ import java.util.List;
 public class Main {
 
   public static void main(String[] args) throws IOException {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    long n = Long.parseLong(br.readLine());
+    final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    final long n = Long.parseLong(br.readLine());
     br.close();
-    int limit = (int) Math.cbrt(n);
-    EratosthenesSieve es = new EratosthenesSieve(limit);
-    List<Integer> primeNumberList = new ArrayList<>();
-    int[] cnt_prime = new int[limit + 1];
-    for (int p = 2; p <= limit; p++) {
-      cnt_prime[p] = cnt_prime[p - 1];
-      if (es.isPrimeNumber(p)) {
-        primeNumberList.add(p);
-        cnt_prime[p]++;
+    final int limit = (int) Math.cbrt(n);
+    final EratosthenesSieve sieve = new EratosthenesSieve(limit);
+    final List<Long> pn_list = new ArrayList<>();
+    pn_list.add(2L);
+    for (int i = 3; i <= limit; i += 2) {
+      if (sieve.isPrimeNumber(i)) {
+        pn_list.add((long) i);
       }
     }
-    int ans = 0;
-    for (int i = primeNumberList.size() - 1; i >= 0; i--) {
-      long q = primeNumberList.get(i).longValue();
-      long n_div_q = n / (q * q * q);
-      if (n_div_q < q) {
-        ans += cnt_prime[(int) n_div_q];
+    long ans = 0;
+    int left = 0, right = pn_list.size() - 1;
+    //尺取法
+    while (left < right) {
+      long p_l = pn_list.get(left);
+      long p_r = pn_list.get(right);
+      if (p_r * p_r * p_r <= n / p_l) {
+        ans += right - left;
+        left++;
       } else {
-        ans += cnt_prime[(int) (q - 1)];
+        right--;
       }
     }
     System.out.println(ans);
   }
 
+  //EratosthenesSieveライブラリ
   static class EratosthenesSieve {
 
     private final int div[];
