@@ -1,4 +1,4 @@
-package contests.abc.abc246.abc246_b;
+package contests.abc.abc24x.abc246.abc246_b;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,13 +25,14 @@ class MainTest {
   PrintStream _output;
 
   final static String category = "ABC";
+  final static String prefix = "ABC24X";
   final static String contest = "ABC246";
   final static String problem = "B";
 
   final static String testDataInDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("in").toString();
+      .add(category).add(prefix).add(contest).add(problem).add("in").toString();
   final static String testDataOutDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("out").toString();
+      .add(category).add(prefix).add(contest).add(problem).add("out").toString();
 
   @BeforeEach
   void setUp() {
@@ -52,7 +53,8 @@ class MainTest {
       Main.main(null);
       // 誤差は10^-6以下であること
       // delta
-      String[] expectedValues = IOUtils.toString(expected, StandardCharsets.UTF_8.name()).split(" ");
+      String[] expectedValues = IOUtils.toString(expected, StandardCharsets.UTF_8.name())
+          .split(" ");
       double expectedValue1 = Double.parseDouble(expectedValues[0]);
       double expectedValue2 = Double.parseDouble(expectedValues[1]);
       String[] actualValues = byteArrayOutputStream.toString().split(" ");
