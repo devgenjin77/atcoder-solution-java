@@ -1,4 +1,4 @@
-package contests.arc.arc134.arc134_b;
+package contests.arc.arc14x.arc149.arc149_b;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,13 +25,14 @@ class MainTest {
   PrintStream _output;
 
   final static String category = "ARC";
-  final static String contest = "ARC134";
+  final static String prefix = "ARC14X";
+  final static String contest = "ARC149";
   final static String problem = "B";
 
   final static String testDataInDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("in").toString();
+      .add(category).add(prefix).add(contest).add(problem).add("in").toString();
   final static String testDataOutDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("out").toString();
+      .add(category).add(prefix).add(contest).add(problem).add("out").toString();
 
   @BeforeEach
   void setUp() {
