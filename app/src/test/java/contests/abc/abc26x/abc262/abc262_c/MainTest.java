@@ -1,4 +1,4 @@
-package contests.abc.abc250.abc250_g;
+package contests.abc.abc26x.abc262.abc262_c;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -25,13 +25,14 @@ class MainTest {
   PrintStream _output;
 
   final static String category = "ABC";
-  final static String contest = "ABC250";
-  final static String problem = "G";
+  final static String prefix = "ABC26X";
+  final static String contest = "ABC262";
+  final static String problem = "C";
 
   final static String testDataInDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("in").toString();
+      .add(category).add(prefix).add(contest).add(problem).add("in").toString();
   final static String testDataOutDir = new StringJoiner("/", "/", "/")
-      .add(category).add(contest).add(problem).add("out").toString();
+      .add(category).add(prefix).add(contest).add(problem).add("out").toString();
 
   @BeforeEach
   void setUp() {
